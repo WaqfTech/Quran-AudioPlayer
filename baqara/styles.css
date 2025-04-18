@@ -1,0 +1,151 @@
+/* styles.css */
+
+/* --- Fonts & Base --- */
+body {
+    /* Default font for English/Latin */
+    font-family: 'Andika', sans-serif;
+    /* Increased base text size */
+    @apply text-lg; /* Tailwind class for 1.125rem / 18px */
+    /* Light mode base */
+    color: #111827; /* gray-900 */
+    background-color: #f9fafb; /* gray-50 */
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  html.dark body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #e5e7eb; /* gray-200 */
+  }
+  /* Specific font for Arabic elements */
+  .arabic-title {
+    font-family: 'Tajawal', sans-serif;
+  }
+  
+  /* --- Glassmorphism & Containers --- */
+  .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+  html.dark .app-container { @apply glass; }
+  html.dark .library { @apply glass; }
+  .app-container { @apply bg-white shadow-xl rounded-2xl; }
+  .library { @apply bg-gray-50 shadow-xl rounded-r-2xl lg:rounded-l-2xl; }
+  
+  /* --- Range Input Styling --- */
+  input[type="range"].styled-slider { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; width: 100%; height: 20px; /* Match HTML h-5 */ position: relative; z-index: 10; }
+  .range-track-visual { position: absolute; top: 50%; left: 0; right: 0; height: 6px; /* Match HTML h-1.5 */ transform: translateY(-50%); border-radius: 6px; pointer-events: none; /* Light */ background: rgba(0, 0, 0, 0.15); /* Slightly darker track */ /* Dark */ @apply dark:bg-white/10; }
+  .range-fill { position: absolute; top: 50%; left: 0; height: 6px; /* Match HTML h-1.5 */ transform: translateY(-50%); border-radius: 6px; pointer-events: none; z-index: 1; background: linear-gradient(to right, #c026d3, #db2777); }
+  /* Thumb */
+  input[type="range"].styled-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; z-index: 2; position: relative; margin-top: -6px; /* Re-center for 6px track */ transition: transform 0.2s ease; background: #f472b6; border: 3px solid #fff; box-shadow: 0 0 8px rgba(244, 114, 182, 0.7); @apply dark:border-slate-800; }
+  input[type="range"].styled-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  input[type="range"].styled-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; z-index: 2; position: relative; transition: transform 0.2s ease; cursor: pointer; background: #f472b6; border: 3px solid #fff; box-shadow: 0 0 8px rgba(244, 114, 182, 0.7); @apply dark:border-slate-800; }
+  input[type="range"].styled-slider::-moz-range-thumb:hover { transform: scale(1.2); }
+  
+  
+  /* --- Cover Image Animations --- */
+  .playing { animation: float 6s ease-in-out infinite, spin 30s linear infinite; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); border-color: rgba(219, 39, 119, 0.4) !important; @apply dark:box-shadow-[0_10px_25px_-5px_rgba(0,0,0,0.5)]; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(180deg); } 100% { transform: translateY(0px) rotate(360deg); } }
+  
+  /* --- Audio Visualizer --- */
+  .visualizer-bar { width: 6px; background: linear-gradient(to top, #c026d3, #db2777); margin: 0 2px; border-radius: 3px; transform-origin: bottom; opacity: 0.7; transition: height 0.2s ease; }
+  .visualizer-bar:nth-child(odd) { animation: viz-pulse 1.5s infinite alternate ease-in-out; }
+  .visualizer-bar:nth-child(even) { animation: viz-pulse 1.3s infinite alternate ease-in-out; animation-delay: 0.2s; }
+  @keyframes viz-pulse { from { transform: scaleY(0.3); opacity: 0.5; } to { transform: scaleY(1); opacity: 0.8; } }
+  
+  /* --- Control Button Styles --- */
+  .control-button { @apply focus:outline-none transition-all duration-200 p-2 rounded-full; /* Light */ color: #374151; /* gray-700 */ /* Dark */ @apply dark:text-gray-200; }
+  .control-button:hover { transform: scale(1.1); /* Light */ color: #000; /* Dark */ @apply dark:text-white; }
+  
+  /* Repeat Button States */
+  #repeat {}
+  #repeat i { /* Size set in HTML */ }
+  #repeat.state-off {}
+  #repeat.state-page, #repeat.state-all { color: #ec4899; text-shadow: 0 0 8px rgba(236, 72, 153, 0.6); @apply dark:text-pink-400 dark:text-shadow-[0_0_10px_rgba(236,72,153,0.6)]; background-color: rgba(236, 72, 153, 0.1); @apply dark:bg-pink-500/10; }
+  #repeat.state-page:hover, #repeat.state-all:hover { color: #ec4899; @apply dark:text-pink-400; transform: scale(1.15); }
+  
+  /* Play Button */
+  .pulse { animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.6); } 70% { box-shadow: 0 0 0 18px rgba(236, 72, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); } }
+  
+  /* --- Decorative Background --- */
+  .decorative-pattern { position: absolute; opacity: 0.04; z-index: -1; transform: rotate(45deg); user-select: none; pointer-events: none; color: #fff; }
+  
+  /* --- Library Styles --- */
+  .library { transition: transform 0.5s ease-in-out; }
+  .library::-webkit-scrollbar { width: 5px; }
+  .library::-webkit-scrollbar-track { background: transparent; }
+  .library::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #c026d3, #db2777); border-radius: 5px; }
+  
+  /* Library Item Base */
+.library-item {
+    /* Light */ color: #1f2937; /* gray-800 */
+    /* Dark */ @apply dark:text-gray-200; /* Use gray-200 for better dark contrast */
+}
+.library-item .page-number {
+    /* Light */ color: #a855f7; /* purple-500 */
+    /* Dark */ @apply dark:text-pink-400; /* Make number less transparent */
+}
+.library-item .page-name {
+     /* Inherits color from .library-item by default */
+}
+
+/* Library Item Hover */
+.library-item:hover {
+    /* Light */ background-color: rgba(0,0,0,0.04);
+    /* Dark */ @apply dark:bg-white/5;
+}
+.library-item:hover .page-number {
+     /* Light */ color: #9333ea; /* purple-600 */
+     /* Dark */ @apply dark:text-pink-300;
+}
+.library-item:hover .page-name { /* Inherit hover color from parent */
+     /* Light */ color: #000;
+     /* Dark */ @apply dark:text-white;
+}
+
+/* Library item selected */
+.library-item.selected {
+    border-left: 4px solid #db2777; padding-left: calc(0.75rem - 4px);
+    /* Light */ background-color: rgba(0,0,0,0.06);
+    /* Dark */ @apply dark:bg-white/10;
+}
+.library-item.selected .page-number {
+    font-weight: 700;
+    /* Light */ color: #c026d3; /* fuchsia-600 */
+    /* Dark */ @apply dark:text-pink-300; /* Keep selected number bright */
+}
+.library-item.selected .page-name {
+    font-weight: 700;
+     /* Override base color with gradient text */
+    color: transparent !important; /* Ensure base color doesn't interfere */
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    /* Light */ @apply bg-gradient-to-r from-purple-600 to-pink-600;
+    /* Dark */ @apply dark:bg-gradient-to-r dark:from-pink-400 dark:to-purple-400;
+}
+  
+  /* --- Fade-in Animation --- */
+  .fade-in { animation: fadeIn 0.6s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+  
+  /* --- Focus Visible --- */
+  *:focus-visible { outline: none; ring: 2px; ring-offset: 2px; /* Light */ ring-color: #ec4899; ring-offset-color: #fff; /* Dark */ @apply dark:ring-pink-500 dark:ring-offset-slate-900; }
+  button:focus, select:focus, input[type="range"]:focus { outline: none; }
+  
+  /* --- Explicit Text & Control Color Overrides for Contrast --- */
+  /* Using high contrast defaults now, fewer overrides needed but keep for fine-tuning */
+  #surah-reciter { /* Light */ color: #374151; /* Dark */ @apply dark:text-gray-300; }
+  #current-page-badge { /* Light */ background: linear-gradient(to right, rgba(192, 38, 211, 0.1), rgba(219, 39, 119, 0.1)); color: #a855f7; border-color: rgba(192, 38, 211, 0.3); /* Dark */ @apply dark:bg-gradient-to-r dark:from-pink-500/20 dark:to-purple-500/20 dark:text-pink-300 dark:border-pink-500/30; }
+  #current-time, #duration { /* Light */ color: #4b5563; /* Dark */ @apply dark:text-gray-400; }
+  #playback-speed-label { /* Light */ color: #374151; /* Dark */ @apply dark:text-gray-300; }
+  #playback-speed-value { /* Light */ color: #111827; /* Dark */ @apply dark:text-gray-100; }
+  .sound-control i { /* Light */ color: #4b5563; /* Dark */ @apply dark:text-gray-400; }
+  nav .arabic-title { /* Light */ color: rgba(168, 85, 247, 0.8); /* Dark */ @apply dark:text-pink-300/80; }
+  .library .arabic-title { /* Light */ color: rgba(168, 85, 247, 0.6); /* Dark */ @apply dark:text-pink-300/60; }
+  footer { /* Light */ color: #4b5563; border-top-color: #e5e7eb; /* Dark */ @apply dark:text-gray-400 dark:border-white/10; }
+  footer a { /* Light */ color: #a855f7; /* Dark */ @apply dark:text-pink-400; }
+  footer a:hover { /* Light */ color: #9333ea; /* Dark */ @apply dark:text-pink-300; }
+  #language-switcher { /* Light */ background: #f3f4f6; color: #1f2937; border-color: #d1d5db; /* Dark */ @apply dark:bg-black/30 dark:text-gray-200 dark:border-white/10; }
+  #theme-toggle { /* Light */ color: #4b5563; /* Dark */ @apply dark:text-gray-300; }
+  #theme-toggle:hover { /* Light */ background: #e5e7eb; /* Dark */ @apply dark:bg-white/10 dark:text-white; }
+  #play-pause { /* Light */ color: #fff; background: linear-gradient(to bottom right, #ec4899, #a855f7); /* Dark */ @apply dark:text-white dark:bg-gradient-to-br dark:from-pink-500 dark:to-purple-600; }
+  #play-pause:hover { /* Light */ background: linear-gradient(to bottom right, #db2777, #9333ea); /* Dark */ @apply dark:hover:from-pink-600 dark:hover:to-purple-700; }

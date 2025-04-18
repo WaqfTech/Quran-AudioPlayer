@@ -1,0 +1,22 @@
+{
+    "appName": "مشغل سورة البقرة",
+    "library": "المكتبة",
+    "pageTitle": "صفحة {pageNumber}",
+    "surahName": "سورة البقرة",
+    "reciterName": "عبد الرشيد الصوفي",
+    "surahReciter": "{surahName} - {reciterName}",
+    "loadingLibrary": "جاري تحميل المكتبة...",
+    "loadingError": "خطأ في تحميل الصفحات.",
+    "themeToggle": "تبديل السمة",
+    "repeatOff": "التكرار متوقف",
+    "repeatPage": "تكرار الصفحة",
+    "repeatAll": "تكرار الكل",
+    "playbackSpeedLabel": "السرعة",
+    "playbackSpeedValue": "{speed}x",
+    "close": "إغلاق",
+    "pageLabel": "صفحة",
+    "ofLabel": "من",
+    "repeat": "تكرار",
+    "footerText": "تطوير",
+    "waqfTechLink": "WaqfTech.org"
+  }

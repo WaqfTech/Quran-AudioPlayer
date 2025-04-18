@@ -1,0 +1,22 @@
+{
+    "appName": "Baqarah Player",
+    "library": "Library",
+    "pageTitle": "Page {pageNumber}",
+    "surahName": "Surah Al-Baqarah",
+    "reciterName": "Abdul Rashid Al-Sufi",
+    "surahReciter": "{surahName} - {reciterName}",
+    "loadingLibrary": "Loading library...",
+    "loadingError": "Error loading pages.",
+    "themeToggle": "Toggle Theme",
+    "repeatOff": "Repeat Off",
+    "repeatPage": "Repeat Page",
+    "repeatAll": "Repeat All",
+    "playbackSpeedLabel": "Speed",
+    "playbackSpeedValue": "{speed}x",
+    "close": "Close",
+    "pageLabel": "Page",
+    "ofLabel": "of",
+    "repeat": "Repeat",
+    "footerText": "Developed by",
+    "waqfTechLink": "WaqfTech.org"
+  }

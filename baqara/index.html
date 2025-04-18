@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"> <!-- lang and dir updated by JS -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/4074b6dd70.js" crossorigin="anonymous"></script> <!-- Ensure this is FA6 if using fa-repeat -->
+
+    <!-- Google Fonts: Tajawal (Arabic) & Andika (Latin/English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Link External Stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+    <title>Surah Al-Baqarah Player</title> <!-- Title updated by JS -->
+    <script>
+        // Tailwind Dark Mode Configuration
+        tailwind.config = { darkMode: 'class' }
+    </script>
+</head>
+<body class="flex items-center justify-center p-4 md:p-0 text-lg"> <!-- Base size text-lg (18px) -->
+ 
+
+    <!-- App Container -->
+    <div class="app-container relative w-full max-w-lg mx-auto rounded-2xl overflow-hidden shadow-2xl border border-pink-500/10 fade-in"> <!-- Increased max-w-lg -->
+
+        <!-- Language and Theme Controls -->
+        <div class="absolute top-4 end-4 z-40 flex items-center space-x-2 rtl:space-x-reverse">
+             <!-- Increased text size for select -->
+            <select id="language-switcher" class="text-sm p-1 rounded border focus-visible:ring-pink-500 focus:outline-none backdrop-blur-sm"> <!-- Colors/BG in CSS -->
+                <option value="en">EN</option><option value="ar">AR</option>
+            </select>
+            <button id="theme-toggle" data-translate-key="themeToggle" aria-label="Toggle Theme" class="p-1.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 focus-visible:ring-pink-500 focus:outline-none transition-colors"> <!-- Colors in CSS -->
+                <i class="fas fa-sun text-base"></i> <!-- Slightly larger icon -->
+            </button>
+        </div>
+
+        <!-- Main Player Area -->
+        <div class="main-player p-6 pt-16 md:pt-16">
+            <!-- Navigation -->
+            <nav class="flex justify-between items-center mb-6">
+                <div class="flex items-baseline space-x-3 rtl:space-x-reverse"> <!-- Increased space -->
+                    <!-- Increased Nav Title Size -->
+                    <h1 data-translate-key="appName" class="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-pink-400 dark:to-purple-400"> <!-- text-3xl -->
+                        Baqarah Player
+                    </h1>
+                </div>
+                <button id="library-link" aria-label="Open Library" class="control-button text-2xl p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-pink-500 transition-all duration-300"> <!-- Increased icon size -->
+                    <i class="fas fa-list"></i>
+                </button>
+            </nav>
+
+            <!-- Song Info -->
+            <div class="song-info flex flex-col items-center text-center my-8"> <!-- Increased margin -->
+                <div class="relative mb-6"> <!-- Increased margin -->
+                    <!-- Slightly Larger Cover -->
+                    <img id="cover-image" src="images/quran-audioplayer1.png" alt="Cover" class="w-52 h-52 md:w-56 md:h-56 rounded-full shadow-xl object-cover transition-all duration-700 border-4 border-transparent dark:border-pink-500/20"/>
+                    <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full w-6 h-6 flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800">
+                        <div class="bg-gray-100 dark:bg-slate-900 rounded-full w-2 h-2"></div>
+                    </div>
+                </div>
+                <div class="visualizer-container h-[50px] my-3 flex items-end justify-center space-x-1 rtl:space-x-reverse"> <!-- Increased height/margin -->
+                    <div class="visualizer-bar w-1.5 rounded-full" style="height: 10%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 25%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 50%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 75%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 100%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 75%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 50%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 25%;"></div> <div class="visualizer-bar w-1.5 rounded-full" style="height: 10%;"></div> <!-- Slightly thicker bars -->
+                </div>
+                <div class="mt-5"> <!-- Increased margin -->
+                    <!-- Increased Page Title Size -->
+                    <h2 id="page-title" data-translate-key="pageTitle" class="text-4xl font-semibold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-pink-400 dark:to-purple-400 leading-tight">Page 1</h2> <!-- text-4xl -->
+                    <!-- Increased Reciter Size -->
+                    <h3 id="surah-reciter" data-translate-key="surahReciter" class="text-lg mt-1">Surah Al-Baqarah - ...</h3> <!-- text-lg, Added margin -->
+                    <div class="mt-3"> <!-- Increased margin -->
+                        <!-- Increased Badge Size -->
+                        <span id="current-page-badge" class="text-base rounded-full px-4 py-1 border">Page <span id="current-page-num">1</span> of 48</span> <!-- text-base, more padding -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Progress Bar -->
+            <div class="player px-2 mb-5"> <!-- Increased margin -->
+                 <div class="relative w-full h-5 flex items-center group"> <!-- Increased height -->
+                    <div class="range-track-visual h-1.5"></div><div id="progress-bar-fill" class="range-fill h-1.5"></div> <!-- Increased height -->
+                    <input type="range" id="progress-bar" value="0" step="any" class="styled-slider h-5" aria-label="Playback Progress" /> <!-- Increased height -->
+                 </div>
+                <div class="flex justify-between text-base mt-1.5"> <!-- text-base, Increased margin -->
+                    <span id="current-time">0:00</span><span id="duration">0:00</span>
+                </div>
+            </div>
+
+             <!-- Playback Speed Control -->
+             <div class="speed-control px-2 mb-8"> <!-- Increased margin -->
+                 <!-- Increased Label Size -->
+                 <label id="playback-speed-label" for="speed-slider" data-translate-key="playbackSpeedLabel" class="block text-base mb-1.5 text-center font-medium">Speed</label> <!-- text-base -->
+                 <div class="relative w-full h-5 flex items-center group"> <!-- Increased height -->
+                     <div class="range-track-visual h-1.5"></div><div id="speed-bar-fill" class="range-fill h-1.5"></div> <!-- Increased height -->
+                     <input type="range" id="speed-slider" min="0.5" max="2.0" value="1.0" step="0.05" class="styled-slider h-5" aria-labelledby="playback-speed-label" /> <!-- Increased height -->
+                 </div>
+                 <!-- Increased Value Size -->
+                 <div class="text-center text-base mt-1.5 font-semibold"> <!-- text-base -->
+                     <span id="playback-speed-value" data-translate-key="playbackSpeedValue">1.00x</span>
+                 </div>
+             </div>
+
+
+            <!-- Player Controls -->
+            <div class="player-control flex justify-center items-center space-x-6 md:space-x-8 my-8 rtl:space-x-reverse"> <!-- Increased margin -->
+                 <!-- Icons increased via class w-7/h-7 -->
+                <button id="repeat" data-translate-key="repeatOff" title="Repeat Off" class="control-button text-3xl focus:outline-none state-off p-2 rounded-full">
+                    <i class="fas fa-redo w-7 h-7"></i> <!-- Base icon -->
+                </button>
+                <button id="backward" aria-label="Previous Page" class="control-button text-4xl focus:outline-none p-2 rounded-full">
+                    <i class="fas fa-backward w-7 h-7"></i>
+                </button>
+                <!-- Increased Play Button Size -->
+                <button id="play-pause" aria-label="Play/Pause" class="w-24 h-24 rounded-full flex items-center justify-center text-4xl shadow-lg focus:outline-none focus-visible:ring-pink-500 transform transition-transform duration-200"> <!-- Color/BG in CSS -->
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="forward" aria-label="Next Page" class="control-button text-4xl focus:outline-none p-2 rounded-full">
+                    <i class="fas fa-forward w-7 h-7"></i>
+                </button>
+                <button id="volume-mute" aria-label="Mute/Unmute" class="control-button text-3xl focus:outline-none p-2 rounded-full">
+                     <i class="fas fa-volume-up w-7 h-7"></i>
+                </button>
+            </div>
+
+            <!-- Volume Control -->
+             <div class="sound-control flex items-center justify-center space-x-3 rtl:space-x-reverse w-3/4 mx-auto mb-8 px-2"> <!-- Increased margin -->
+                 <!-- Increased Icon Size -->
+                <i class="fas fa-volume-down text-xl"></i>
+                <div class="relative w-full h-5 flex items-center group"> <!-- Increased height -->
+                    <div class="range-track-visual h-1.5"></div><div id="volume-bar-fill" class="range-fill h-1.5"></div> <!-- Increased height -->
+                    <input id="volume-slider" type="range" min="0" max="100" value="80" step="1" class="styled-slider h-5" aria-label="Volume Control" /> <!-- Increased height -->
+                </div>
+                <i class="fas fa-volume-up text-xl"></i>
+            </div>
+
+            <audio id="audio-player" src=""></audio>
+        </div>
+
+         <!-- Footer -->
+        <footer class="text-center text-base py-4 border-t"> <!-- Increased Size/Padding -->
+            <span data-translate-key="footerText">Developed by</span>
+            <a href="https://waqftech.org" target="_blank" rel="noopener noreferrer" data-translate-key="waqfTechLink" class="font-semibold hover:underline transition-colors duration-200 mx-1"> <!-- Color in CSS -->
+                WaqfTech.org
+            </a>
+        </footer>
+
+        <!-- Library Panel -->
+        <div id="library" class="library fixed inset-y-0 start-0 w-80 p-6 transform -translate-x-full z-30 overflow-y-auto will-change-transform"> <!-- Increased width w-80 -->
+            <div class="flex justify-between items-center mb-6">
+                 <!-- Increased Library Title Size -->
+                <h2 data-translate-key="library" class="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-pink-400 dark:to-purple-400">Surah Pages</h2> <!-- Increased size -->
+                <button id="close-library" data-translate-key="close" aria-label="Close Library" class="control-button focus:outline-none w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-all">
+                    <i class="fas fa-times text-2xl"></i> <!-- Increased icon size -->
+                </button>
+            </div>
+            <div class="flex items-center space-x-2 rtl:space-x-reverse mb-6">
+                <div class="h-px bg-gradient-to-r from-transparent via-pink-500/30 to-transparent flex-grow"></div>
+                <div class="h-px bg-gradient-to-l from-transparent via-pink-500/30 to-transparent flex-grow"></div>
+            </div>
+            <!-- Increased Library Item text size via class -->
+            <div id="library-list" class="space-y-1 text-lg"> <!-- Base size text-lg -->
+                <p data-translate-key="loadingLibrary" class="text-gray-500">Loading library...</p>
+            </div>
+        </div>
+
+        <!-- Overlay for library -->
+         <div id="library-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-20 hidden transition-opacity duration-500 ease-in-out will-change-opacity opacity-0"></div>
+
+    </div> <!-- End App Container -->
+
+    <script src="data.js"></script>
+    <script type="module" src="js/main.js"></script> <!-- Ensure type="module" -->
+</body>
+</html>
